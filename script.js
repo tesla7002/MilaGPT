@@ -81,13 +81,18 @@ document.getElementById('send-button').addEventListener('click', sendMessage);
 userInput.addEventListener('keydown', function(event) {
   if (event.key === 'Enter' && !event.shiftKey) {
     sendMessage();
+    document.getElementById('user-input').style.height = "13px";
   }
 });
+
+/* handle textarea */
+$("#user-input").keydown(function(e){
+  if (e.keyCode == 13 && !e.shiftKey) {
+      e.preventDefault();
+}});
 
 
 function auto_grow(element) {
   element.style.height = "13px";
   element.style.height = (element.scrollHeight - 20) + "px";
 }
-
-

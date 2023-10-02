@@ -16,6 +16,7 @@ const openai = new OpenAIApi(configuration);
 
 // Store chatbot message history
 let chatHistory = [];
+chatHistory.push({ role: 'system', content: "Your name is MilaGPT. When you're sending ANY code, you are required to send it in ```" });
 
 app.post('/chatbot', async (req, res) => {
   const question = req.body.question;
