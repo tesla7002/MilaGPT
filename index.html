@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="module" src="https://unpkg.com/dark-mode-toggle"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/3.0.0/marked.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <link  href="highlight.css" rel="stylesheet">
+</head>
+<body>
+  <div class="chatbot-container">
+    <div class="chatbot-header">
+      <h1>mila.gpt</h1>
+      <button id="dark-mode-toggle" class="light-bulb"><i class="fas fa-lightbulb"></i></button>
+    </div>
+    
+    <div class="chatbot-messages" id="chatbot-messages">
+      <!---->
+    </div>
+    <div class="chatbot-input">
+      <textarea oninput="auto_grow(this)" type="text" id="user-input" placeholder="Type your message..."></textarea>
+      <button id="send-button">Send</button>
+    </div>
+  </div>
+
+    <script src="script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js"></script>
+    <script>
+        /* handle code highlight */
+        hljs.initHighlightingOnLoad();
+
+        function addMessage(message, sender) {
+          const messageElement = document.createElement('div');
+          messageElement.classList.add('message', sender === 'user' ? 'user' : 'chatbot');
+          messageElement.innerHTML = marked(message);
+          chatbotMessages.appendChild(messageElement);
+          chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+  
+          const codeBlocks = messageElement.querySelectorAll('pre code');
+          codeBlocks.forEach((codeBlock) => {
+            hljs.highlightBlock(codeBlock);
+          });
+
+          if (document.body.classList.contains('dark-mode')) {
+            messageElement.classList.add('dark-mode');
+          }
+
+          return messageElement;
+
+          /* handle textarea */
+          function handleEnter(evt) {
+            //handle
+            if (evt.keyCode == 13 && evt.shiftKey) {
+                console.log("shift enter")
+                if (evt.type == "keypress") {
+                    pasteIntoInput(this, "\n");
+                }
+                evt.preventDefault();
+            }
+          }
+
+          $("#user-input").keydown(handleEnter).keypress(handleEnter);
+        }
+    </script>
+</body>
+</html>
